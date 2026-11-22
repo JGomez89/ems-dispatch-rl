@@ -1,0 +1,64 @@
+# Shared simulator and reward parameters. Everyone reads these through config.py.
+#
+# Values tagged "X" are PLACEHOLDERS until M2's DataSF fits land (fit_datasf.py, task T07).
+# Change a value only after telling the team (see CONTRACT.md, "Changing the contract").
+
+fleet:
+  n_units: 6
+  n_posts: 4
+  # Home post (index into city.posts) of each unit. Posts 0 and 1 get two units.
+  # OPEN DECISION D6 (CONTRACT.md): which posts get the second unit.
+  unit_posts: [0, 0, 1, 1, 2, 3]
+
+time:
+  turnout_s: 60            # waived for units returning to post (already rolling)
+  episode_hours: 6         # no new calls after this; the sim drains the queue
+  obs_time_scale_s: 240    # all times in the observation are divided by this
+  observed_rate_window_s: 3600   # moving window for the observed call rate
+
+roads:
+  # Travel speed by road type (code in maps.CityMap.road). X: placeholder.
+  # OPEN DECISION D6: confirm against DataSF en-route times.
+  speed_mph: {side: 15, main: 25, highway: 45}
+  block_mi: 0.125
+
+calls:
+  # 24 hourly weights h(hour), mean 1. X: placeholder (flat).
+  hourly_weight: [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+                  1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+  # Severity shares pi_s [critical, urgent, non-urgent]. X: placeholder.
+  severity_share: [0.15, 0.35, 0.50]
+  # Probability of transport to hospital p_s. X: placeholder.
+  transport_prob: [0.85, 0.70, 0.40]
+  # Lognormal service times: median seconds and log-sd. X: placeholders.
+  on_scene_median_s: [900, 1080, 1200]
+  on_scene_logsd: 0.5
+  unloading_median_s: 1200
+  unloading_logsd: 0.5
+  # Hospital choice for transports. OPEN DECISION D6: nearest by travel time (assumed).
+  hospital_rule: nearest
+
+loads: [0.4, 0.6, 0.8]     # target utilization under closest-unit dispatch
+surge:
+  multiplier: 2.0          # E4 surge: lambda doubled for one hour
+  duration_s: 3600
+
+reward:
+  # Order everywhere: [critical, urgent, non-urgent]
+  weight: [3.0, 1.5, 0.5]       # w_s
+  target_s: [300, 300, 600]     # tau_s
+  scale_s: [60, 120, 300]       # sigma_s
+  exponent: [2, 2, 1]           # k_s
+  # OPEN DECISION D1 (CONTRACT.md): the per-tier cap of 10 lets critical calls stop
+  # costing anything ~190 s past target. Options: "huber" (quadratic then linear) or
+  # moving the cap to the summed step reward. tests/test_rewards.py has an xfail for it.
+  max_penalty: 10.0
+
+zones:
+  # Equity metric: the 16x16 grid is split into zone_size x zone_size blocks.
+  # OPEN DECISION D5: confirm zone size (4 -> 16 zones).
+  zone_size: 4
+
+seeds:
+  # Call streams and policies use separate seeds (CONTRACT.md, "Seeds").
+  eval_call_seed_offset: 100000   # evaluation episodes never reuse training call seeds

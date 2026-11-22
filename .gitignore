@@ -3,9 +3,11 @@ __pycache__/
 .venv/
 venv/
 .ipynb_checkpoints/
+.pytest_cache/
 .DS_Store
 
-# not committed: share data and large results via the team Drive
+# Not committed: share raw data and large results via the team Drive.
+# config/ (params.yaml, lambda_bar.json) IS committed so everyone uses the same values.
 data/
 results/
 *.pt
