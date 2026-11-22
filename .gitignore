@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+.venv/
+venv/
+.ipynb_checkpoints/
+.DS_Store
+
+# not committed: share data and large results via the team Drive
+data/
+results/
+*.pt
+*.zip

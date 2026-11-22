@@ -1,0 +1,8 @@
+numpy
+scipy
+pandas
+gymnasium
+torch
+stable-baselines3
+sb3-contrib
+matplotlib
