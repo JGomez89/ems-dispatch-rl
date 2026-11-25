@@ -25,6 +25,9 @@ N_UNITS = 6
 N_POSTS = 4
 N_HOSPITALS = 2               # proposal allows 1-2; per-map override later
 
+UNIT_STATES = ["IDLE_AT_POST", "EN_ROUTE", "ON_SCENE",
+               "TRANSPORTING", "UNLOADING", "RETURNING"]   # one-hot order in obs
+
 # ---------------------------------------------------------------------------
 # Severity tiers
 # ---------------------------------------------------------------------------
