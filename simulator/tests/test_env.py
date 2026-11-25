@@ -1,4 +1,4 @@
-"""Acceptance checks. Run from the repo root: python -m simulator.tests.test_env"""
+"""Acceptance checks. Run from the repo root: pytest"""
 import numpy as np
 
 from simulator import simulator_config as cfg
@@ -101,10 +101,3 @@ def test_step_reward_sums_call_records():
         assert abs(r - sum(rec["reward"] for rec in info["calls"])) < 1e-9
         n_calls += len(info["calls"])
     assert n_calls == len(env.sim.calls), "every call credited exactly once"
-
-
-if __name__ == "__main__":
-    for name, fn in list(globals().items()):
-        if name.startswith("test_"):
-            fn()
-            print("ok", name)

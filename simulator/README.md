@@ -16,7 +16,7 @@ From the repo root:
 
 ```bash
 pip install -r requirements.txt
-python -m simulator.tests.test_env          # acceptance checks, < 1 s
+pytest                                      # acceptance checks, ~1 s
 ```
 
 ```python
@@ -118,7 +118,9 @@ posts. Road speeds are in `simulator_config.ROAD_SPEED_MPH`.
 
 ## tests/
 
-`python -m simulator.tests.test_env` (plain asserts, no pytest):
+`pytest` from the repo root (`pytest.ini` sets `testpaths` and puts the repo
+root on the import path, so no `__init__.py` files are needed). Plain-assert
+`test_*` functions, no fixtures:
 
 - **Both envs:** observations inside the contract space, mask is bool (7,)
   with at least one `True`, `info` and call-record keys, same seed →
